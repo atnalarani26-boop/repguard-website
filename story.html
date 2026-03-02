@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RepGuard — SOC Story</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script defer src="script.js"></script>
+</head>
+
+<body class="page page-story">
+  <!-- FX -->
+  <div class="fx fx-grid" aria-hidden="true"></div>
+  <div class="fx fx-scan" aria-hidden="true"></div>
+  <canvas id="fxParticles" class="fx-canvas" aria-hidden="true"></canvas>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <a class="brand-link" href="landing.html" aria-label="RepGuard Home">
+          <img class="brand-logo is-flip" src="./logo.png" alt="RepGuard logo"/>
+
+          <div class="brand-text">
+            <div class="brand-name">RepGuard</div>
+            <div class="brand-tag">CYBER DEFENSE • REPUTATION SOC</div>
+          </div>
+        </a>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-link" href="#overview">Overview</a>
+        <a class="nav-link" href="#capabilities">Capabilities</a>
+        <a class="nav-link" href="#approach">Approach</a>
+        <a class="nav-link" href="#insights">Insights</a>
+      </nav>
+
+      <div class="topbar-cta">
+        <a class="pill email-pill" href="mailto:info@repscan.ai">info@repscan.ai</a>
+        <a class="btn btn-primary" href="#insights">Request Advisory</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container stack">
+
+    <!-- Overview -->
+    <section id="overview" class="section">
+      <div class="two-col">
+        <div class="left reveal">
+          <div class="pill subtle">SOC STORY</div>
+          <h2 class="h2">Reputation incidents,<br/>handled like security incidents.</h2>
+          <p class="p">
+            Your situation becomes clear fast: detect → verify → map actors → escalate → recover.<br/>
+            Every step produces an output (evidence, timelines, links, templates).
+          </p>
+
+          <div class="mini-cards">
+            <div class="mini reveal">
+              <div class="mini-label">MEAN TRIAGE TIME</div>
+              <div class="mini-value">15–30m</div>
+              <div class="mini-note">first clarity snapshot</div>
+            </div>
+            <div class="mini reveal">
+              <div class="mini-label">SIGNAL SOURCES</div>
+              <div class="mini-value">OSINT+</div>
+              <div class="mini-note">platforms • domains • pages</div>
+            </div>
+            <div class="mini reveal">
+              <div class="mini-label">OUTCOME</div>
+              <div class="mini-value">Recovery</div>
+              <div class="mini-note">stop repeats + rebuild trust</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="right reveal">
+          <div class="card glass workflow">
+            <div class="kicker">SOC WORKFLOW GRAPHIC</div>
+
+            <div class="workflow-grid">
+              <div class="wf-step">
+                <div class="wf-title">Detect</div>
+                <div class="wf-note">OSINT + platforms</div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-title">Verify</div>
+                <div class="wf-note">evidence + timeline</div>
+              </div>
+              <div class="wf-step">
+                <div class="wf-title">Map Actors</div>
+                <div class="wf-note">clusters + repeats</div>
+              </div>
+              <div class="wf-step danger">
+                <div class="wf-title">Escalate</div>
+                <div class="wf-note">takedown + legal</div>
+              </div>
+
+              <div class="wf-mid">
+                <div class="wf-mid-title">Recover + Protect</div>
+                <div class="wf-mid-note">prevention • monitoring • trust rebuild</div>
+              </div>
+            </div>
+
+            <div class="workflow-out">
+              Outputs: snapshot → evidence pack → escalation templates → recovery checklist
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities -->
+    <section id="capabilities" class="section">
+      <div class="reveal">
+        <div class="pill subtle">CAPABILITIES</div>
+        <h2 class="h2">End-to-end incident response for reputation.</h2>
+        <p class="p">Clear workflows, low-noise monitoring, and evidence that stands up in escalation.</p>
+      </div>
+
+      <div class="cards-3">
+        <div class="card glass cap reveal">
+          <h3 class="h3">Impersonation & Clone Detection</h3>
+          <p class="p2">Fake profiles, cloned pages, copycat domains, and brand-lookalike abuse.</p>
+        </div>
+        <div class="card glass cap reveal">
+          <h3 class="h3">OSINT Correlation</h3>
+          <p class="p2">Mentions → entities → sources → intent. Cluster patterns and repeat actors.</p>
+        </div>
+        <div class="card glass cap reveal">
+          <h3 class="h3">Evidence Packs</h3>
+          <p class="p2">Screenshots, URLs, timestamps, link graphs, and incident summaries.</p>
+        </div>
+        <div class="card glass cap reveal">
+          <h3 class="h3">Takedown + Escalation</h3>
+          <p class="p2">Platform requests, templates, legal routing, and response playbooks.</p>
+        </div>
+        <div class="card glass cap reveal">
+          <h3 class="h3">Executive Oversight</h3>
+          <p class="p2">One-page status updates, severity scoring, and risk/impact summaries.</p>
+        </div>
+        <div class="card glass cap reveal">
+          <h3 class="h3">Recovery + Prevention</h3>
+          <p class="p2">Stop repeats, improve controls, monitor quietly, rebuild trust.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Approach -->
+    <section id="approach" class="section">
+      <div class="two-col">
+        <div class="left reveal">
+          <div class="pill subtle">APPROACH</div>
+          <h2 class="h2">Storytelling that becomes action.</h2>
+          <p class="p">
+            We translate chaos into a simple narrative stakeholders understand instantly —
+            what happened, who’s behind it, what to do next.
+          </p>
+
+          <div class="step-list">
+            <div class="step reveal">
+              <div class="step-n">01</div>
+              <div class="step-body">
+                <div class="step-title">Monitor (SOC Watch)</div>
+                <div class="step-desc">Low-noise collection across OSINT + platforms.</div>
+              </div>
+            </div>
+            <div class="step reveal">
+              <div class="step-n">02</div>
+              <div class="step-body">
+                <div class="step-title">Verify</div>
+                <div class="step-desc">Evidence-backed findings with timelines.</div>
+              </div>
+            </div>
+            <div class="step reveal">
+              <div class="step-n">03</div>
+              <div class="step-body">
+                <div class="step-title">Map Actors</div>
+                <div class="step-desc">Clusters, repeats, amplification paths.</div>
+              </div>
+            </div>
+            <div class="step reveal">
+              <div class="step-n">04</div>
+              <div class="step-body">
+                <div class="step-title">Escalate</div>
+                <div class="step-desc">Takedown steps + escalation packs.</div>
+              </div>
+            </div>
+            <div class="step reveal">
+              <div class="step-n">05</div>
+              <div class="step-body">
+                <div class="step-title">Recover + Protect</div>
+                <div class="step-desc">Prevention against repeats and trust recovery.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="right reveal">
+          <div class="card glass snapshot">
+            <div class="kicker">INCIDENT SNAPSHOT</div>
+
+            <div class="snap-top">
+              <div class="snap-box">
+                <div class="snap-label">SEVERITY</div>
+                <div class="snap-value danger">High</div>
+              </div>
+              <div class="snap-box">
+                <div class="snap-label">VECTORS</div>
+                <div class="snap-value">Impersonation</div>
+              </div>
+              <div class="snap-box">
+                <div class="snap-label">CHANNELS</div>
+                <div class="snap-value">Social + Search</div>
+              </div>
+            </div>
+
+            <div class="kicker mt16">MENTION VELOCITY</div>
+            <div class="sparkline" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span>
+            </div>
+
+            <div class="snap-footer">
+              <div class="p2">Next: move to Cyber Security view → attack surface + controls</div>
+              <div class="snap-actions">
+                <a class="btn btn-ghost" href="cyber.html">Open Cyber Security</a>
+                <a class="btn btn-ghost" href="mailto:info@repscan.ai">Email: info@repscan.ai</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Insights -->
+    <section id="insights" class="section">
+      <div class="reveal">
+        <div class="pill subtle">INSIGHTS</div>
+        <h2 class="h2">Executive updates that stay calm under pressure.</h2>
+        <p class="p">Short, clear, and decision-ready: what changed, what it means, what we’re doing.</p>
+      </div>
+
+      <div class="insight-grid">
+        <div class="card glass insight reveal">
+          <div class="kicker">WHAT CHANGED</div>
+          <div class="insight-text">A cluster of new accounts amplified the same claim.</div>
+        </div>
+
+        <div class="card glass insight reveal">
+          <div class="kicker">WHY IT MATTERS</div>
+          <div class="insight-text">Search + social trust impact increases rapidly within 24–48 hours.</div>
+        </div>
+
+        <div class="card glass insight reveal">
+          <div class="kicker">WHAT WE DID</div>
+          <div class="insight-text">Captured proof, mapped sources, generated takedown + escalation templates.</div>
+        </div>
+
+        <div class="card glass insight reveal">
+          <div class="kicker">NEXT STEPS</div>
+          <div class="insight-text">Execute takedowns, monitor repeats, and deploy prevention controls.</div>
+        </div>
+      </div>
+
+      <div class="cta-bar card glass reveal">
+        <div class="cta-left">
+          <div class="cta-title">Need a walkthrough?</div>
+          <div class="cta-sub">Send what you’re seeing. We’ll reply with a clear plan.</div>
+        </div>
+        <a class="btn btn-primary" href="mailto:info@repscan.ai">Request a walkthrough</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-copy">© 2026 RepGuard</span>
+      </div>
+
+      <div class="footer-right">
+        <a class="footer-link" href="mailto:info@repscan.ai">info@repscan.ai</a>
+        <span class="footer-sep">•</span>
+
+        <a class="footer-link" href="#" target="_blank" rel="noopener">
+          <i class="fa-brands fa-linkedin"></i> LinkedIn
+        </a>
+
+        <span class="footer-sep">•</span>
+
+        <a class="footer-link" href="#" target="_blank" rel="noopener">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

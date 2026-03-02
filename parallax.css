@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&family=Inter:wght@400;600&display=swap');
+
+:root {
+    --bg-dark: #000000;
+    --text-main: #ffffff;
+    --text-muted: #8e8e9f;
+    --accent: #00f0ff;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- Parallax Hero Section --- */
+.parallax-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    /* Only hide X & Y in the container so layers don't bleed out */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-dark);
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures image fills the container beautifully */
+    pointer-events: none;
+    /* Let clicks pass through images */
+    will-change: transform;
+}
+
+/* Layer Depths using Z-Index */
+.layer-bg {
+    z-index: 1;
+}
+
+.layer-mid {
+    z-index: 2;
+}
+
+.layer-front {
+    z-index: 4;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    will-change: transform;
+    pointer-events: none;
+    /* Passes clicks slightly */
+}
+
+.hero-content h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 8rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content h1 span {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--accent);
+    text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* --- Scroll Indicator --- */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    text-align: center;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.7;
+    animation: fadeInOut 2s infinite;
+}
+
+.mouse {
+    width: 24px;
+    height: 36px;
+    border: 2px solid var(--text-muted);
+    border-radius: 12px;
+    position: relative;
+}
+
+.mouse::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 2px;
+    animation: scrollDown 1.5s infinite;
+}
+
+@keyframes scrollDown {
+    0% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, 12px);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeInOut {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* --- Content Section --- */
+.content {
+    position: relative;
+    background: var(--bg-dark);
+    z-index: 10;
+    padding: 120px 20px;
+    box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+    background: linear-gradient(90deg, #fff, var(--text-muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.content>p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 800px;
+    margin: 0 auto 80px;
+    line-height: 1.8;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 40px;
+    border-radius: 24px;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 240, 255, 0.05);
+}
+
+.card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: var(--accent);
+}
+
+.card p {
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 4rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+        padding: 0 20px;
+    }
+
+    .content h2 {
+        font-size: 2.5rem;
+    }
+}
