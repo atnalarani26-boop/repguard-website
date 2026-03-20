@@ -62,7 +62,13 @@ h3,
 }
 
 .back-layer {
-    background: none;
+    background: url('Backgroun main.png') center center / 100% auto no-repeat;
+    opacity: 0.7;
+}
+
+.dark-overlay-layer {
+    background: rgba(0, 0, 0, 0.5);
+    /* Dim the background to make text readable */
 }
 
 .grid-layer {
@@ -77,7 +83,7 @@ h3,
     height: 100%;
     z-index: 2;
     transform-style: preserve-3d;
-    perspective: 2000px;
+    perspective: 3500px; /* Increased for deeper parallax */
 }
 
 .story-center-panel {
@@ -91,9 +97,9 @@ h3,
 }
 
 .massive-logo {
-    width: 140px;
+    width: 250px;
     margin-bottom: 20px;
-    filter: drop-shadow(0 0 20px rgba(0, 240, 255, 0.5));
+    filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.5)); /* Increased glow slightly to match size */
 }
 
 .story-subtext {
@@ -183,7 +189,15 @@ h3,
 }
 
 .text-glow {
-    text-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+    text-shadow: 0 0 50px rgba(0, 240, 255, 0.6), 0 0 100px rgba(0, 240, 255, 0.3); /* Enhanced glow */
+}
+
+.title-accent {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--text);
+    background: linear-gradient(90deg, #fff, var(--accent));
+    -webkit-background-clip: text;
+    filter: drop-shadow(0 0 20px var(--accent));
 }
 
 /* Cyber Badges */
@@ -537,6 +551,8 @@ h3,
 .floating-threats {
     position: relative;
     height: 50vh;
+    perspective: 1500px;
+    transform-style: preserve-3d;
 }
 
 .threat-card {
@@ -548,6 +564,7 @@ h3,
     width: 350px;
     position: absolute;
     will-change: transform, opacity;
+    transform-style: preserve-3d;
 }
 
 .threat-header {
@@ -621,15 +638,46 @@ h3,
 
 .question-list {
     list-style: none;
+    perspective: 1000px;
 }
 
 .question-list li {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     color: var(--text);
-    opacity: 0;
-    transform: translateY(20px);
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    transition: transform 0.1s; /* Quick response for JS */
+    cursor: default;
+    position: relative;
+    overflow: hidden;
 }
+
+/* Dynamic Glowing Border / Aura */
+.question-list li::before, .feature-list li::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        800px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), 
+        rgba(0, 240, 255, 0.15),
+        transparent 40%
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.question-list li:hover::before, .feature-list li:hover::before {
+    opacity: 1;
+}
+
 
 .accent-title {
     color: var(--accent);
@@ -642,6 +690,7 @@ h3,
 .feature-list {
     list-style: none;
     margin-top: 2rem;
+    perspective: 1000px;
 }
 
 .feature-list li {
@@ -649,8 +698,19 @@ h3,
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    transition: transform 0.1s; /* Quick response for JS */
+    cursor: default;
+    position: relative;
+    overflow: hidden;
 }
+
 
 .dot {
     width: 8px;
@@ -1154,6 +1214,8 @@ h3,
 .word-reveal {
     display: inline-block;
     will-change: transform, opacity;
+    color: #ffffff;
+    /* White text color */
 }
 
 .color-gradient-1 {
@@ -1217,7 +1279,8 @@ h3,
     font-family: 'Outfit', sans-serif;
     font-size: clamp(3rem, 8vw, 8rem);
     font-weight: 900;
-    line-height: 1;
+    line-height: 0.95;
+    margin: 0;
     letter-spacing: -0.02em;
     color: var(--text);
     text-transform: uppercase;
@@ -1423,7 +1486,7 @@ h3,
 
 .client-logo h3 {
     font-family: "Outfit", sans-serif;
-    font-size: 1.3rem;
+    font-size: 2rem;
     font-weight: 800;
     color: #fff;
     letter-spacing: 0.04em;
@@ -1763,3 +1826,49 @@ h3,
         transition: none !important;
     }
 }
+
+/* ================================================================
+   GLOWING CALL-TO-ACTION BUTTON
+   ================================================================ */
+.btn-glow {
+    display: inline-block;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, rgba(0, 31, 63, 0.8), rgba(0, 116, 217, 0.4));
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 240, 255, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), inset 0 0 10px rgba(0, 240, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    backdrop-filter: blur(5px);
+}
+
+.btn-glow::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 30%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.btn-glow:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 0 35px rgba(0, 240, 255, 0.6), inset 0 0 15px rgba(0, 240, 255, 0.4);
+    color: #ffffff;
+    border-color: rgba(0, 240, 255, 1);
+    text-decoration: none;
+}
+
+.btn-glow:hover::before {
+    left: 150%;
+}

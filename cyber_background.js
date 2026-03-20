@@ -1,190 +1,213 @@
 /**
- * 3D Reputation Monitoring Network
- * High-fidelity network visualization with nodes, links, and pulses.
- * Reference: https://xr.noomoagency.com/
+ * True 3D Reputation Monitoring Network (WebGL)
+ * High-fidelity network visualization with nodes, links, and true camera parallax.
+ * Powered by Three.js
  */
 
 window.addEventListener('load', () => {
     const canvas = document.getElementById('nebula-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    if (!canvas || typeof THREE === "undefined") return;
 
-    let width, height;
-    let mouse = { x: -1000, y: -1000 };
-    let scrollY = window.scrollY;
+    // --- Scene Setup ---
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x000000, 0.0015); // Deep darkness fading out
 
-    // Scan pulse properties
-    let pulseRadius = 0;
-    let isPulsing = false;
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.z = 200;
 
-    // Network properties
-    const nodes = [];
-    const nodeCount = 60;
-    const connectionDist = 180;
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance"
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    const colors = {
-        node: 'rgba(0, 240, 255, 0.8)',
-        line: 'rgba(0, 240, 255, 0.15)',
-        pulse: 'rgba(0, 240, 255, 0.4)',
-        threatNode: 'rgba(255, 51, 102, 0.8)',
-        threatLine: 'rgba(255, 51, 102, 0.2)'
-    };
+    // --- Particle Network Data ---
+    const particleCount = 250;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+    const sizes = new Float32Array(particleCount);
 
-    function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
+    const normalColor = new THREE.Color(0x00f0ff); // Cyan
+    const threatColor = new THREE.Color(0xff3366); // Red/Pink
+
+    // velocities for ambient drift
+    const velocities = [];
+
+    for (let i = 0; i < particleCount; i++) {
+        // Spread particles in a wide, deep cylinder/tunnel shape
+        const x = (Math.random() - 0.5) * 1200;
+        const y = (Math.random() - 0.5) * 1200;
+        const z = (Math.random() - 0.5) * 2000; // Deep Z spread
+
+        positions[i * 3] = x;
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = z;
+
+        // ~15% chance of being a threat node
+        const isThreat = Math.random() > 0.85;
+        const pColor = isThreat ? threatColor : normalColor;
+        
+        colors[i * 3] = pColor.r;
+        colors[i * 3 + 1] = pColor.g;
+        colors[i * 3 + 2] = pColor.b;
+
+        sizes[i] = Math.random() * 2.5 + 1.0;
+
+        velocities.push({
+            x: (Math.random() - 0.5) * 0.2,
+            y: (Math.random() - 0.5) * 0.2,
+            z: (Math.random() - 0.5) * 0.2
+        });
     }
 
-    window.addEventListener('resize', resize);
-    resize();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
+    // --- Create Custom Shader Material for glowing dots ---
+    const material = new THREE.PointsMaterial({
+        size: 3.5,
+        vertexColors: true,
+        blending: THREE.AdditiveBlending,
+        transparent: true,
+        opacity: 0.8,
+        depthWrite: false
     });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // --- Create Lines (Connections) ---
+    const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x00f0ff,
+        transparent: true,
+        opacity: 0.15,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    });
+
+    // We use a dynamic buffer for lines that updates every frame based on distance
+    const maxLineCount = particleCount * particleCount / 2; // worst case
+    const linePositions = new Float32Array(maxLineCount * 3);
+    const lineColors = new Float32Array(maxLineCount * 3);
+
+    const lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
+    lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3).setUsage(THREE.DynamicDrawUsage));
+
+    const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(linesMesh);
+
+    // --- Interaction State ---
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    
+    const windowHalfX = window.innerWidth / 2;
+    const windowHalfY = window.innerHeight / 2;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX - windowHalfX) * 0.05;
+        mouseY = (e.clientY - windowHalfY) * 0.05;
+    });
+
+    let currentScroll = window.scrollY;
+    let targetScroll = window.scrollY;
 
     window.addEventListener('scroll', () => {
-        scrollY = window.scrollY;
+        targetScroll = window.scrollY;
     });
 
-    // Trigger pulse on click for "Intelligence Scan" feel
-    window.addEventListener('mousedown', () => {
-        pulseRadius = 0;
-        isPulsing = true;
-    });
+    // --- Animation Loop ---
+    const clock = new THREE.Clock();
 
-    class Node {
-        constructor() {
-            this.init();
-        }
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        const delta = clock.getDelta();
 
-        init() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            // Z-depth for parallax
-            this.z = Math.random() * 0.5 + 0.5;
-            this.radius = Math.random() * 2 + 1;
-            this.vx = (Math.random() * 2 - 1) * 0.2;
-            this.vy = (Math.random() * 2 - 1) * 0.2;
-            this.isThreat = Math.random() > 0.9;
-        }
+        // Smooth scroll interpolation (lerp)
+        currentScroll += (targetScroll - currentScroll) * 0.05;
 
-        update() {
-            // Ambient drift
-            this.x += this.vx;
-            this.y += this.vy;
+        // Smooth mouse interpolation (lerp)
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
 
-            // Simple parallax relative to scroll
-            const pX = 0;
-            const pY = (scrollY * this.z * 0.1) % height;
+        // 1. Move camera through the tunnel based on scroll!
+        // The further you scroll, the deeper you go into Z space
+        camera.position.z = 200 - (currentScroll * 0.4);
+        
+        // 2. Add subtle camera rotation based on mouse
+        camera.rotation.x = targetY * 0.005;
+        camera.rotation.y = -targetX * 0.005;
 
-            // Bounce / Wrap
-            if (this.x < 0) this.x = width;
-            if (this.x > width) this.x = 0;
-            if (this.y < 0) this.y = height;
-            if (this.y > height) this.y = 0;
-        }
+        // 3. Update Particle Positions (ambient drift)
+        const positions = particles.geometry.attributes.position.array;
+        
+        let vertexIndex = 0;
+        let lineIndex = 0;
 
-        draw(offsetY) {
-            const dy = (this.y + offsetY) % height;
-            ctx.beginPath();
-            ctx.arc(this.x, dy, this.radius, 0, Math.PI * 2);
-            ctx.fillStyle = this.isThreat ? colors.threatNode : colors.node;
-            ctx.fill();
+        for (let i = 0; i < particleCount; i++) {
+            const v = velocities[i];
+            
+            // move
+            positions[i * 3] += v.x;
+            positions[i * 3 + 1] += v.y;
+            positions[i * 3 + 2] += v.z;
 
-            // Node glow
-            if (this.isThreat) {
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = colors.threatNode;
-            } else {
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = colors.node;
-            }
-        }
-    }
+            // wrap around boundaries gently to keep the volume full
+            if (positions[i * 3] > 600) positions[i * 3] = -600;
+            if (positions[i * 3] < -600) positions[i * 3] = 600;
+            if (positions[i * 3 + 1] > 600) positions[i * 3 + 1] = -600;
+            if (positions[i * 3 + 1] < -600) positions[i * 3 + 1] = 600;
+            
+            // Allow them to wrap deeply in Z so the camera always has stuff to fly through
+            if (positions[i * 3 + 2] > 1000) positions[i * 3 + 2] = -1000;
+            if (positions[i * 3 + 2] < -1000) positions[i * 3 + 2] = 1000;
 
-    for (let i = 0; i < nodeCount; i++) {
-        nodes.push(new Node());
-    }
+            // 4. Calculate Distances for Lines
+            for (let j = i + 1; j < particleCount; j++) {
+                const dx = positions[i * 3] - positions[j * 3];
+                const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+                const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+                const distSq = dx * dx + dy * dy + dz * dz;
 
-    function drawConnections(offsetY) {
-        ctx.shadowBlur = 0;
-        for (let i = 0; i < nodes.length; i++) {
-            for (let j = i + 1; j < nodes.length; j++) {
-                const n1 = nodes[i];
-                const n2 = nodes[j];
-                const dy1 = (n1.y + offsetY) % height;
-                const dy2 = (n2.y + offsetY) % height;
+                // If particles are close enough, draw a line
+                if (distSq < 15000) { // approx 122 distance
+                    // Start of line
+                    linePositions[lineIndex++] = positions[i * 3];
+                    linePositions[lineIndex++] = positions[i * 3 + 1];
+                    linePositions[lineIndex++] = positions[i * 3 + 2];
 
-                const dx = n1.x - n2.x;
-                const dy = dy1 - dy2;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-
-                if (dist < connectionDist) {
-                    ctx.beginPath();
-                    ctx.moveTo(n1.x, dy1);
-                    ctx.lineTo(n2.x, dy2);
-                    const opacity = 1 - (dist / connectionDist);
-                    ctx.strokeStyle = n1.isThreat || n2.isThreat ? colors.threatLine : colors.line;
-                    ctx.globalAlpha = opacity;
-                    ctx.stroke();
-                    ctx.globalAlpha = 1;
+                    // End of line
+                    linePositions[lineIndex++] = positions[j * 3];
+                    linePositions[lineIndex++] = positions[j * 3 + 1];
+                    linePositions[lineIndex++] = positions[j * 3 + 2];
                 }
             }
         }
+
+        particles.geometry.attributes.position.needsUpdate = true;
+        
+        linesMesh.geometry.setDrawRange(0, lineIndex / 3);
+        linesMesh.geometry.attributes.position.needsUpdate = true;
+
+        // Render scene
+        renderer.render(scene, camera);
     }
 
-    function drawPulse() {
-        if (!isPulsing) return;
+    // Handle Resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
 
-        pulseRadius += 10;
-        if (pulseRadius > Math.max(width, height)) {
-            isPulsing = false;
-            return;
-        }
-
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, pulseRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = colors.pulse;
-        ctx.lineWidth = 2;
-        ctx.globalAlpha = 1 - (pulseRadius / Math.max(width, height));
-        ctx.stroke();
-        ctx.lineWidth = 1;
-        ctx.globalAlpha = 1;
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#000000';
-        ctx.fillRect(0, 0, width, height);
-
-        const offsetY = scrollY * 0.2;
-
-        nodes.forEach(node => {
-            node.update();
-            node.draw(offsetY);
-        });
-
-        drawConnections(offsetY);
-        drawPulse();
-
-        // Mouse interaction: draw faint lines to mouse
-        nodes.forEach(node => {
-            const dy = (node.y + offsetY) % height;
-            const dx = node.x - mouse.x;
-            const distY = dy - mouse.y;
-            const dist = Math.sqrt(dx * dx + distY * distY);
-            if (dist < 200) {
-                ctx.beginPath();
-                ctx.moveTo(node.x, dy);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.strokeStyle = 'rgba(0, 240, 255, 0.1)';
-                ctx.stroke();
-            }
-        });
-
-        requestAnimationFrame(animate);
-    }
-
+    // Start loop
     animate();
 });

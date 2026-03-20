@@ -54,13 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // ================================================================
     if (!prefersReduced) {
         gsap.from(".word-reveal", {
-            y: 60,
+            y: 100,
             opacity: 0,
-            rotateX: -40,
-            stagger: 0.07,
-            duration: 1.6,
-            ease: "expo.out",
-            delay: 0.3,
+            rotateX: -80,
+            scale: 0.5,
+            z: -200,
+            stagger: 0.15,
+            duration: 2.2,
+            ease: "elastic.out(1, 0.7)",
+            delay: 0.2,
         });
     }
 
@@ -101,14 +103,14 @@ document.addEventListener("DOMContentLoaded", () => {
             duration: "random(3, 5)", repeat: -1, yoyo: true, ease: "sine.inOut"
         });
 
-        // Scroll-driven: text blasts toward camera, personas exit
+        // Scroll-driven: extreme warp backward simulating entering the screen
         introTl
-            .to(".back-layer", { z: -200, scale: 1.08, x: -80, opacity: 0.05 }, 0)
-            .to(".marquee-track", { xPercent: -80, ease: "none" }, 0)
-            .to(".word-reveal", { opacity: 0, scale: 0.6, z: 600, stagger: 0.02, y: -120 }, 0)
-            .to(".massive-logo", { scale: 3.5, y: -280, opacity: 0, ease: "power2.in" }, 0.05)
-            .to(".persona-img", { y: -120, opacity: 0, stagger: 0.05, ease: "power2.in" }, 0.1)
-            .to(".scroll-down", { opacity: 0, y: -30 }, 0);
+            .to(".back-layer", { z: -1000, scale: 1.5, x: -100, y: -50, opacity: 0.01, filter: "blur(10px)" }, 0)
+            .to(".marquee-track", { xPercent: -150, z: -500, rotateX: 20, ease: "none" }, 0)
+            .to(".word-reveal", { opacity: 0, scale: 3, z: 1500, stagger: 0.05, y: -200, rotateX: 45 }, 0)
+            .to(".massive-logo", { scale: 5, y: -400, opacity: 0, ease: "expo.in" }, 0.05)
+            .to(".persona-img", { y: -200, opacity: 0, z: 500, stagger: 0.05, ease: "power2.in" }, 0.1)
+            .to(".scroll-down", { opacity: 0, y: -50 }, 0);
 
         // ── Narrative Transition ─────────────────────────────────
         gsap.fromTo(".scroll-narrative-text",
@@ -142,17 +144,30 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         gsap.utils.toArray(".threat-card").forEach((card, i) => {
+            // Entrance from deep Z space
             gsap.fromTo(card,
-                { y: 180 + i * 40, opacity: 0, rotateZ: (i % 2 === 0 ? -3 : 3) },
+                { y: 300 + i * 50, z: -800, opacity: 0, rotateX: 45, rotateY: (i % 2 === 0 ? -20 : 20) },
                 {
-                    y: 0, opacity: 1, rotateZ: 0,
+                    y: 0, z: 0, opacity: 1, rotateX: 0, rotateY: 0,
                     scrollTrigger: {
                         trigger: "#scene-threats",
-                        start: "top 80%", end: "center 30%",
-                        scrub: 0.8 + i * 0.3,
+                        start: "top 75%", end: "center 40%",
+                        scrub: 1 + i * 0.2,
                     }
                 }
             );
+
+            // Continuous gentle float
+            gsap.to(card, {
+                y: `random(-15, 15)`,
+                x: `random(-10, 10)`,
+                rotateZ: `random(-2, 2)`,
+                duration: `random(3, 5)`,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: i * 0.2
+            });
         });
 
         gsap.to(".threat-bg", {
@@ -186,17 +201,59 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
-        gsap.utils.toArray(".question-list li, .feature-list li").forEach((li, i) => {
+        const solutionItems = gsap.utils.toArray(".question-list li, .feature-list li");
+        
+        solutionItems.forEach((li, i) => {
             gsap.fromTo(li,
-                { x: i % 2 === 0 ? -50 : 50, opacity: 0 },
+                { y: 30, rotateX: 90, opacity: 0, transformOrigin: "left center" },
                 {
-                    x: 0, opacity: 1,
+                    y: 0, rotateX: 0, opacity: 1,
                     scrollTrigger: {
                         trigger: li,
-                        start: "top 90%", end: "top 65%", scrub: 0.8,
+                        start: "top 95%", end: "top 75%", scrub: 0.8,
                     }
                 }
             );
+
+            // Creative 3D Mouse Tracking Aura & Tilt
+            li.addEventListener("mousemove", (e) => {
+                const rect = li.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element
+                const y = e.clientY - rect.top; // y position within the element
+                
+                // Update CSS variables for Glow
+                li.style.setProperty('--mouse-x', `${x}px`);
+                li.style.setProperty('--mouse-y', `${y}px`);
+
+                // Calculate tilt based on distance from center
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const tiltX = ((y - centerY) / centerY) * -10; // Max tilt 10deg
+                const tiltY = ((x - centerX) / centerX) * 10;
+
+                gsap.to(li, {
+                    rotateX: tiltX,
+                    rotateY: tiltY,
+                    translateZ: 30,
+                    scale: 1.02,
+                    duration: 0.3,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            });
+
+            li.addEventListener("mouseleave", () => {
+                gsap.to(li, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    translateZ: 0,
+                    scale: 1,
+                    duration: 0.5,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            });
         });
 
         // ── SCENE 4: Timeline ────────────────────────────────────
@@ -230,26 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
         gsap.to(".i3", { y: -180, x: -20, scrollTrigger: { trigger: "#scene-timeline", start: "top bottom", end: "bottom top", scrub: 1.5 } });
 
         // ── SOC Carousel reveal ───────────────────────────────────
-        gsap.fromTo("#scene-soc-slider .headline-medium, #scene-soc-slider .soc-slider-desc",
-            { y: 50, opacity: 0 },
-            {
-                y: 0, opacity: 1, stagger: 0.2,
-                scrollTrigger: {
-                    trigger: "#scene-soc-slider",
-                    start: "top 80%", end: "top 50%", scrub: 1,
-                }
-            }
-        );
-        gsap.fromTo(".soc-carousel-container",
-            { y: 80, opacity: 0 },
-            {
-                y: 0, opacity: 1,
-                scrollTrigger: {
-                    trigger: "#scene-soc-slider",
-                    start: "top 70%", end: "top 30%", scrub: 1.2,
-                }
-            }
-        );
+        // SOC Carousel removed
 
         // ── SCENE 4.6: Horizontal Scroll ─────────────────────────
         const horizontalContainer = document.querySelector(".horizontal-content");
@@ -287,9 +325,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         onUpdate(self) {
                             const p = self.progress;
                             gsap.set(card, {
-                                rotateY: (p - 0.5) * -40,
-                                scale: 1 - Math.abs(p - 0.5) * 0.12,
-                                z: Math.abs(p - 0.5) * -80,
+                                rotateY: (p - 0.5) * -60, // Deeper rotation
+                                scale: 1 - Math.abs(p - 0.5) * 0.25, // More dramatic scaling
+                                z: Math.abs(p - 0.5) * -300, // Deeper Z push
+                                opacity: 1 - Math.abs(p - 0.5), // Fade when passing center
                             });
                         }
                     }
@@ -328,41 +367,32 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Ring rotation parallax
-        gsap.to(".ring-1", { rotateZ: 360, scrollTrigger: { trigger: "#scene-audience", start: "top bottom", end: "bottom top", scrub: 1 } });
-        gsap.to(".ring-2", { rotateZ: -360, scrollTrigger: { trigger: "#scene-audience", start: "top bottom", end: "bottom top", scrub: 1.5 } });
-
-        // Matrix transition
-        gsap.fromTo(".matrix-headline",
-            { opacity: 0, scale: 0.88, y: 60 },
-            {
-                opacity: 1, scale: 1, y: 0,
-                scrollTrigger: {
-                    trigger: ".narrative-transition--matrix",
-                    start: "top 80%", end: "center 40%", scrub: 1,
-                }
-            }
-        );
+        // Legacy Ring & Matrix removed
 
         // ── SCENE 6: Outro ───────────────────────────────────────
+        gsap.set(".massive-text", { transformPerspective: 1000, transformStyle: "preserve-3d" });
+        
         gsap.fromTo(".massive-text",
-            { y: 80, opacity: 0, scale: 0.88 },
+            { y: 150, z: -400, rotateX: -60, opacity: 0, scale: 0.8 },
             {
-                y: 0, opacity: 1, scale: 1,
-                stagger: 0.35,
+                y: 0, z: 0, rotateX: 0, opacity: 1, scale: 1,
+                stagger: 0.2, // Slightly faster stagger for impact
+                ease: "back.out(1.2)", // Add a slight overshoot for a slamming effect
                 scrollTrigger: {
                     trigger: "#scene-outro",
-                    start: "top 80%", end: "top 30%", scrub: 1.5,
+                    start: "top 70%", end: "top 20%", scrub: 1,
                 }
             }
         );
+        
         gsap.fromTo(".btn-glow",
-            { opacity: 0, y: 30 },
+            { opacity: 0, scale: 0.5, y: 50 },
             {
-                opacity: 1, y: 0,
+                opacity: 1, scale: 1, y: 0,
+                ease: "back.out(2)", // Bouncier button entrance
                 scrollTrigger: {
                     trigger: "#scene-outro",
-                    start: "top 60%", end: "top 30%", scrub: 1,
+                    start: "top 40%", end: "top 20%", scrub: 1,
                 }
             }
         );
@@ -466,15 +496,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ================================================================
-    //  Mouse-reactive glow on headline
+    //  Mouse-reactive glow & continuous parallax
     // ================================================================
     if (!isMobile) {
         window.addEventListener("mousemove", (e) => {
             const xPct = (e.clientX / window.innerWidth - 0.5) * 2;
+            const yPct = (e.clientY / window.innerHeight - 0.5) * 2;
+
+            // Headline glow intensity
             gsap.to(".text-glow", {
-                textShadow: `0 0 ${20 + Math.abs(xPct) * 22}px rgba(0,240,255,0.55)`,
+                textShadow: `0 0 ${20 + Math.abs(xPct) * 40}px rgba(0,240,255,0.7), 0 0 ${30 + Math.abs(xPct) * 60}px rgba(0,240,255,0.4)`,
                 duration: 0.45,
                 overwrite: "auto",
+            });
+
+            // subtle spatial shift for everything
+            gsap.to(".story-center-panel", {
+                x: xPct * -30,
+                y: yPct * -30,
+                rotateY: xPct * 5,
+                rotateX: yPct * -5,
+                duration: 1,
+                ease: "power2.out",
+                overwrite: "auto"
+            });
+
+            gsap.to(".back-layer", {
+                x: xPct * 40,
+                y: yPct * 40,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+
+            // subtle 3D tilt for threat cards
+            gsap.to(".threat-card", {
+                rotateY: xPct * 15,
+                rotateX: yPct * -15,
+                duration: 1.2,
+                ease: "power2.out",
+                overwrite: "auto"
             });
         }, { passive: true });
     }

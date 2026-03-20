@@ -18,7 +18,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <!-- Smooth Scroll: Lenis -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-</head>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <body style="background: #000;">
     <canvas id="nebula-canvas"></canvas>
@@ -51,26 +52,18 @@
                     <img src="logo.png" alt="RepGuard Logo" class="massive-logo parallax-front flip-logo"
                         onerror="this.style.display='none'">
 
-                    <h1 class="headline-main parallax-mid text-glow">
-                        <span class="word-reveal color-gradient-1">Before</span>
-                        <span class="word-reveal color-gradient-1">lies</span>
-                        <span class="word-reveal color-gradient-1">spread...</span><br>
-                        <span class="word-reveal">your</span>
-                        <span class="word-reveal">digital</span>
-                        <span class="word-reveal">agent</span><br>
-                        <span class="word-reveal accent-text glitch-text glitch-sub">stop them</span>
+                    <h1 class="headline-main parallax-mid text-glow"
+                        style="font-size: 6vw; line-height: 1.1; width: 100%;">
+                        <span class="word-reveal">Your Reputation,</span><br>
+                        <span class="word-reveal title-accent">Secured.</span>
                     </h1>
+                    <p class="hero-subheading parallax-mid word-reveal" style="color: white; font-size: 1.25rem; text-align: center; margin-top: 1.5rem; max-width: 800px; margin-left: auto; margin-right: auto;">Protect your brand's most valuable asset – trust. For individuals, professionals, families, and organizations.</p>
                 </div>
 
                 <!-- Avatars removed as requested -->
             </div>
 
-            <!-- Hero Personas (positioned relative to section, not center panel) -->
-            <div class="hero-personas">
-                <img src="gentleman.png" alt="Analyst" class="persona-img persona-left">
-                <img src="girl.png" alt="User" class="persona-img persona-right">
-                <img src="men.png" alt="Security Expert" class="persona-img persona-far-right">
-            </div>
+            <!-- Hero Personas Removed -->
 
             <!-- Horizontal Marquee of Social Media Activation -->
             <div class="marquee-container">
@@ -88,7 +81,7 @@
 
             <!-- Emotion avatars removed -->
 
-            <div class="scroll-down">Scroll to dig deeper ↓</div>
+            <div class="scroll-down">Get your Reputation Check ↓</div>
         </section>
 
         <!-- Scrolling Narrative Transition -->
@@ -104,8 +97,8 @@
         <section id="scene-threats" class="scene">
             <div class="threat-bg"></div>
             <div class="container content-center">
-                <h2 class="headline-large">The Internet Never Forgets.<br><span class="threat-subtitle">One Narrative
-                        Can Outlive the Truth</span></h2>
+                <h2 class="headline-large">Reputation Risks Are Real</h2>
+                <p class="section-content text-center" style="color: #aaa; margin-bottom: 2rem; font-size: 1.25rem;">Negative reviews, social crises, or online attacks can damage trust – whether you're an individual, business, or family. We shield you.</p>
                 <div class="floating-threats">
                     <div class="threat-card threat1">
                         <div class="threat-header danger">⚠️ IP Leak Alert</div>
@@ -130,12 +123,8 @@
         <section id="scene-solution" class="scene">
             <div class="solution-grid">
                 <div class="solution-left">
-                    <h2 class="solution-headline">Your Reputation Is a Target. We Make It Defensible.</h2>
-                    <ul class="question-list">
-                        <li>Detect threats before they escalate.</li>
-                        <li>Protect your brand across the digital ecosystem.</li>
-                        <li>Turn reputation risk into competitive advantage.</li>
-                    </ul>
+                    <h2 class="solution-headline">Comprehensive Reputation Protection</h2>
+                    <p style="color: #aaa; font-size: 1.1rem; line-height: 1.6; max-width: 400px; margin-bottom: 2rem;">Review management, crisis handling, content optimization – tailored for individuals, pros, and organizations.</p>
                 </div>
                 <div class="solution-right">
                     <h3 class="accent-title">Safeguarding Content, Brand, and Revenue</h3>
@@ -191,65 +180,6 @@
             </div>
         </section>
 
-        <!-- SCENE 4.5: Cyber SOC (3D Sliding Carousel) -->
-        <section id="scene-soc-slider" class="scene">
-            <h2 class="headline-medium text-center z-index-10">RepGuard <span class="accent-text">SOC</span></h2>
-            <p class="text-center soc-slider-desc z-index-10">Experience our Security Operations Center in 3D</p>
-
-            <div class="soc-carousel-container">
-                <div class="soc-slider">
-                    <!-- Slide 1 -->
-                    <div class="soc-slide active">
-                        <div class="soc-slide-inner">
-                            <div class="slide-visual">
-                                <img src="soc.jpg" alt="Ingest" class="soc-slide-img"
-                                    onerror="this.src='background.png'">
-                                <div class="slide-scan-line"></div>
-                            </div>
-                            <div class="slide-content">
-                                <h3>01. Massive Data Ingest</h3>
-                                <p>We pull millions of social data points instantly into our secure environment.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Slide 2 -->
-                    <div class="soc-slide">
-                        <div class="soc-slide-inner">
-                            <div class="slide-visual">
-                                <img src="insights.jpg" alt="AI Scan" class="soc-slide-img"
-                                    onerror="this.src='background.png'">
-                                <div class="slide-scan-line danger-scan"></div>
-                            </div>
-                            <div class="slide-content">
-                                <h3>02. AI Threat Analysis</h3>
-                                <p>Our neural networks detect viral threats, deepfakes, and hate speech before human
-                                    eyes do.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="soc-slide">
-                        <div class="soc-slide-inner">
-                            <div class="slide-visual">
-                                <img src="approach.jpg" alt="Response" class="soc-slide-img"
-                                    onerror="this.src='background.png'">
-                                <div class="slide-scan-line safe-scan"></div>
-                            </div>
-                            <div class="slide-content">
-                                <h3>03. Rapid Human Response</h3>
-                                <p>Elite cyber analysts deploy immediate takedown requests and mitigation protocols.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="carousel-controls z-index-10">
-                <button class="nav-btn prev-btn">← Prev</button>
-                <button class="nav-btn next-btn">Next →</button>
-            </div>
-        </section>
-
         <!-- NEW SCENE: Horizontal Scroll (Noomo Style) -->
         <section id="scene-horizontal-actors" class="scene">
             <div class="horizontal-pin-container">
@@ -261,21 +191,19 @@
                         <div class="reputation-badge-float br-badge">BRAND RISK</div>
                         <h2 class="massive-outline">WHO IS</h2>
                         <h2 class="massive-solid">TARGETED?</h2>
-                        <p class="h-desc">The digital landscape spares no one. We protect the world's most visible
-                            individuals from unseen threats and malicious reputation attacks.</p>
+                        <p class="h-desc">The digital landscape spares no one. We protect the world's most visible individuals from unseen threats and malicious reputation attacks.</p>
                     </div>
 
                     <!-- Actor Card 1 -->
                     <div class="h-panel actor-panel">
                         <div class="actor-card">
                             <div class="actor-image-wrapper">
-                                <img src="hero.png" alt="Actor" class="actor-img" onerror="this.style.display='none'">
+                                <img src="public figures.png" alt="Actor" class="actor-img" onerror="this.style.display='none'">
                                 <div class="cyber-overlay"></div>
                             </div>
                             <div class="actor-info">
                                 <h3>Public Figures</h3>
-                                <p>Shielding personal brands from coordinated harassment, deepfakes, and viral
-                                    misinformation campaigns that threaten career longevity.</p>
+                                <p>Shielding personal brands from coordinated harassment, deepfakes, and viral misinformation campaigns that threaten career longevity.</p>
                                 <div class="threat-tag">120+ Threats Blocked</div>
                             </div>
                         </div>
@@ -285,14 +213,12 @@
                     <div class="h-panel actor-panel">
                         <div class="actor-card">
                             <div class="actor-image-wrapper">
-                                <img src="approach.jpg" alt="Executive" class="actor-img"
-                                    onerror="this.style.display='none'">
+                                <img src="executiev ceos.png" alt="Executive" class="actor-img" onerror="this.style.display='none'">
                                 <div class="cyber-overlay"></div>
                             </div>
                             <div class="actor-info">
                                 <h3>Executives & CEOs</h3>
-                                <p>Securing corporate leadership trust by neutralizing smear campaigns and cleaning
-                                    negative SEO footprints before they impact stock prices.</p>
+                                <p>Securing corporate leadership trust by neutralizing smear campaigns and cleaning negative SEO footprints before they impact stock prices.</p>
                                 <div class="threat-tag warn-tag">High Risk Sector</div>
                             </div>
                         </div>
@@ -302,13 +228,12 @@
                     <div class="h-panel actor-panel">
                         <div class="actor-card">
                             <div class="actor-image-wrapper">
-                                <img src="soc.jpg" alt="Brand" class="actor-img" onerror="this.style.display='none'">
+                                <img src="Globalbrands.png" alt="Brand" class="actor-img" onerror="this.style.display='none'">
                                 <div class="cyber-overlay"></div>
                             </div>
                             <div class="actor-info">
                                 <h3>Global Brands</h3>
-                                <p>Ensuring company legacies outlive temporary internet outrage through rapid response
-                                    mitigation and sentiment recovery protocols.</p>
+                                <p>Ensuring company legacies outlive temporary internet outrage through rapid response mitigation and sentiment recovery protocols.</p>
                                 <div class="threat-tag safe-tag">Protected 24/7</div>
                             </div>
                         </div>
@@ -318,14 +243,12 @@
                     <div class="h-panel actor-panel">
                         <div class="actor-card">
                             <div class="actor-image-wrapper">
-                                <img src="insights.jpg" alt="Crisis" class="actor-img"
-                                    onerror="this.style.display='none'">
+                                <img src="crisis migitation.png" alt="Crisis" class="actor-img" onerror="this.style.display='none'">
                                 <div class="cyber-overlay"></div>
                             </div>
                             <div class="actor-info">
                                 <h3>Crisis Mitigation</h3>
-                                <p>Immediate response to active reputation crises, controlling the narrative and
-                                    strategically suppressing harmful search results.</p>
+                                <p>Immediate response to active reputation crises, controlling the narrative and strategically suppressing harmful search results.</p>
                                 <div class="threat-tag danger-tag">Active Defense</div>
                             </div>
                         </div>
@@ -335,14 +258,12 @@
                     <div class="h-panel actor-panel">
                         <div class="actor-card">
                             <div class="actor-image-wrapper">
-                                <img src="threat.png" alt="Privacy" class="actor-img"
-                                    onerror="this.style.display='none'">
+                                <img src="Privacy protection.png" alt="Privacy" class="actor-img" onerror="this.style.display='none'">
                                 <div class="cyber-overlay"></div>
                             </div>
                             <div class="actor-info">
                                 <h3>Privacy Protection</h3>
-                                <p>Wiping sensitive personal data from public view and managing your digital shadow to
-                                    prevent extortion and doxxing.</p>
+                                <p>Wiping sensitive personal data from public view and managing your digital shadow to prevent extortion and doxxing.</p>
                                 <div class="threat-tag safe-tag">Privacy Secured</div>
                             </div>
                         </div>
@@ -358,92 +279,10 @@
             </div>
         </section>
 
-        <!-- SCENE 5: Who It's For (Text Summary) -->
-        <section id="scene-audience" class="scene">
-            <div class="container">
-                <h2 class="headline-medium text-center audience-headline">Built for Those Who Cannot Afford Damage.</h2>
-
-                <!-- 3D Visual Gap Filler -->
-                <div class="audience-3d-visual">
-                    <div class="cyber-ring ring-1"></div>
-                    <div class="cyber-ring ring-2"></div>
-                    <div class="cyber-ring ring-3"></div>
-                    <div class="floating-data-node node-1">Executive Target</div>
-                    <div class="floating-data-node node-2">Brand Risk</div>
-                    <div class="floating-data-node node-3">Reputation Secured</div>
-                </div>
-
-                <div class="audience-cards">
-                    <div class="a-card">
-                        <div class="a-card-visual">
-                            <img src="girl.png" alt="Public Figure">
-                        </div>
-                        <div class="a-card-text">
-                            <h3>Public Figures</h3>
-                            <p>Protect your personal brand from targeted harassment and fake news.</p>
-                        </div>
-                    </div>
-                    <div class="a-card">
-                        <div class="a-card-visual">
-                            <img src="men.png" alt="Actor">
-                        </div>
-                        <div class="a-card-text">
-                            <h3>Actors</h3>
-                            <p>Maintain your image and prevent career-damaging rumors.</p>
-                        </div>
-                    </div>
-                    <div class="a-card">
-                        <div class="a-card-visual">
-                            <img src="gentleman.png" alt="Executive">
-                        </div>
-                        <div class="a-card-text">
-                            <h3>Executives</h3>
-                            <p>Secure corporate leadership trust from smear campaigns.</p>
-                        </div>
-                    </div>
-                    <div class="a-card">
-                        <div class="a-card-visual">
-                            <img src="hero.png" alt="Global Brands">
-                        </div>
-                        <div class="a-card-text">
-                            <h3>Brands</h3>
-                            <p>Ensure your company's legacy outlives viral internet outrage.</p>
-                        </div>
-                    </div>
-                    <div class="a-card highlight">
-                        <div class="a-card-visual">
-                            <img src="girl_new.png" alt="Digital Abuse Protection">
-                        </div>
-                        <div class="a-card-text">
-                            <h3>Women Facing Digital Abuse</h3>
-                            <p>Take back control and remove non-consensual content fast.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Threat Matrix Transition -->
-        <section class="narrative-transition narrative-transition--matrix">
-            <h2 class="matrix-text text-glow matrix-headline">
-                We monitor the <span class="text-danger">dark corners</span> of the web so you don't have to.
-            </h2>
-        </section>
-
-        <!-- SCENE 6: Outro -->
-        <section id="scene-outro" class="scene">
-            <div class="video-overlay"></div>
-            <div class="outro-content">
-                <h2 class="massive-text">Reputation Is Power.</h2>
-                <h2 class="massive-text outline-text">Power Must Be Protected.</h2>
-
-                <a href="#" class="btn-glow mt-2">Start Securing Today</a>
-            </div>
-        </section>
-
-        <!-- SCENE 7: Clients -->
+        <!-- SCENE 4: Trusted by Experts -->
         <section id="scene-clients" class="scene">
-            <h4 class="clients-subtitle">TRUSTED BY GLOBAL INNOVATORS</h4>
+            <h2 class="clients-subtitle" style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem; color: #00f0ff;">Join Our Trusted Partners</h2>
+            <p class="text-center" style="color: #aaa; font-size: 1.25rem; margin-bottom: 3rem;">See how we’ve protected diverse individuals, professionals, and businesses.</p>
             <div class="clients-marquee">
                 <!-- Group 1 -->
                 <div class="clients-grid">
@@ -491,6 +330,54 @@
                         <p>SINGAPORE FINTECH</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- SCENE 5: Reputation Insights -->
+        <section id="scene-insights" class="scene" style="padding: 100px 0;">
+            <div class="container">
+                <h2 class="headline-medium text-center">Stay Ahead with Expert Tips</h2>
+                <p class="text-center" style="color: #aaa; font-size: 1.25rem; margin-bottom: 3rem;">Latest articles on reputation management for individuals and businesses.</p>
+                <div class="audience-cards" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <div class="a-card" style="flex: 1; min-width: 300px;">
+                        <div class="a-card-visual" style="height: 200px; background: #222; border-radius: 10px; overflow: hidden; margin-bottom: 1rem;">
+                            <!-- Empty background for image later -->
+                            <img src="soc.jpg" alt="Blog 1" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="a-card-text">
+                            <h3 style="font-size: 1.2rem;">Navigating Social Crises</h3>
+                            <p>Learn how top brands handle sudden PR crises with grace.</p>
+                        </div>
+                    </div>
+                    <div class="a-card" style="flex: 1; min-width: 300px;">
+                        <div class="a-card-visual" style="height: 200px; background: #222; border-radius: 10px; overflow: hidden; margin-bottom: 1rem;">
+                            <img src="approach.jpg" alt="Blog 2" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="a-card-text">
+                            <h3 style="font-size: 1.2rem;">Protecting Personal Privacy</h3>
+                            <p>Steps every high-profile individual should take today.</p>
+                        </div>
+                    </div>
+                    <div class="a-card" style="flex: 1; min-width: 300px;">
+                        <div class="a-card-visual" style="height: 200px; background: #222; border-radius: 10px; overflow: hidden; margin-bottom: 1rem;">
+                            <img src="insights.jpg" alt="Blog 3" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div class="a-card-text">
+                            <h3 style="font-size: 1.2rem;">The Cost of Bad Reviews</h3>
+                            <p>Why content optimization is the new SEO.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 6: Get Protected -->
+        <section id="scene-outro" class="scene">
+            <div class="video-overlay"></div>
+            <div class="outro-content">
+                <h2 class="massive-text" style="font-size: 6vw;">Secure Your Reputation Today</h2>
+
+                <a href="#" class="btn-glow mt-2">Talk to an Expert or Get a Trial Audit</a>
             </div>
         </section>
 
