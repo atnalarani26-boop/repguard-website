@@ -287,7 +287,45 @@ document.addEventListener("DOMContentLoaded", () => {
         gsap.to(".i3", { y: -180, x: -20, scrollTrigger: { trigger: "#scene-timeline", start: "top bottom", end: "bottom top", scrub: 1.5 } });
 
         // ── SOC Carousel reveal ───────────────────────────────────
-        // SOC Carousel removed
+        // SOC Carousel restored
+        gsap.fromTo("#scene-soc-slider .headline-medium, #scene-soc-slider .soc-slider-desc",
+            { y: 50, opacity: 0 },
+            {
+                y: 0, opacity: 1, stagger: 0.2,
+                scrollTrigger: {
+                    trigger: "#scene-soc-slider",
+                    start: "top 80%", end: "top 50%", scrub: 1,
+                }
+            }
+        );
+        gsap.fromTo(".soc-carousel-container",
+            { opacity: 0, scale: 0.9, rotateX: 20 },
+            {
+                opacity: 1, scale: 1, rotateX: 0, duration: 1,
+                scrollTrigger: {
+                    trigger: "#scene-soc-slider",
+                    start: "top 60%", end: "center center", scrub: 1
+                }
+            }
+        );
+
+        // Simple Next/Prev logic
+        const slides = document.querySelectorAll('.soc-slide');
+        let currentSlide = 0;
+
+        document.querySelector('.next-btn')?.addEventListener('click', () => {
+            if(!slides.length) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        });
+
+        document.querySelector('.prev-btn')?.addEventListener('click', () => {
+            if(!slides.length) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        });
 
         // ── SCENE 4.6: Horizontal Scroll ─────────────────────────
         const horizontalContainer = document.querySelector(".horizontal-content");
