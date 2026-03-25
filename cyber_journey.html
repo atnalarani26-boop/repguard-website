@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cyber Intelligence Experience</title>
-    <!-- Fonts: Inter for minimal text, Outfit for impact headlines -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <!-- Fonts: Premium modern setup -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Local CSS -->
     <link rel="stylesheet" href="cyber_journey.css">
     <link rel="stylesheet" href="horizontal_actors.css">
@@ -27,7 +27,7 @@
     <!-- NAVBAR (Sticky) -->
     <nav class="navbar">
         <div class="logo-area">
-            <img src="logo.png" alt="Company Logo" class="brand-logo flip-logo" onerror="this.style.display='none'">
+            <img src="logo.png" alt="Company Logo" class="brand-logo" onerror="this.style.display='none'">
             <span class="brand-name">RepGuard</span>
         </div>
         <div class="nav-links">
@@ -40,17 +40,11 @@
 
         <!-- SCENE 1: Intro Parallax Story -->
         <section id="scene-intro" class="scene">
-            <!-- 3D Background Elements -->
-            <div class="intro-bg-layer back-layer">
-            </div>
-            <div class="intro-bg-layer dark-overlay-layer">
-            </div>
+
 
             <div class="intro-content story-container-3d">
                 <!-- Center: Logo & Headline -->
                 <div class="story-center-panel z-index-10 parallax-slow">
-                    <img src="logo.png" alt="RepGuard Logo" class="massive-logo flip-logo"
-                        onerror="this.style.display='none'">
 
                     <h1 class="headline-main text-glow"
                         style="font-size: 6vw; line-height: 1.1; width: 100%;">
@@ -81,14 +75,19 @@
 
             <!-- Emotion avatars removed -->
 
-            <div class="scroll-down">Get your Reputation Check ↓</div>
         </section>
 
         <!-- Scrolling Narrative Transition -->
         <section class="narrative-transition narrative-transition--short">
-            <h2 class="scroll-narrative-text text-glow narrative-headline">
-                Identifying and eliminating false narratives before they go viral
-            </h2>
+
+
+            <div class="narrative-text-block">
+                <div class="narrative-accent-line"></div>
+                <h2 class="scroll-narrative-text narrative-headline-premium">
+                    Identifying and eliminating false narratives before they go viral
+                </h2>
+                <p class="narrative-sub">AI-powered reputation intelligence. Real-time detection. Instant response.</p>
+            </div>
         </section>
 
         <!-- The "O" acts as a portal. The screen turns blue/white (inner color of O), transitioning to Scene 2 -->
@@ -97,8 +96,7 @@
         <section id="scene-threats" class="scene">
             <div class="threat-bg"></div>
             <div class="container content-center">
-                <h2 class="headline-large">Reputation Risks Are Real</h2>
-                <p class="section-content text-center" style="color: #aaa; margin-bottom: 2rem; font-size: 1.25rem;">Negative reviews, social crises, or online attacks can damage trust – whether you're an individual, business, or family. We shield you.</p>
+                <h2 class="headline-large text-glow">Reputation Risks Are Real</h2>
                 <div class="floating-threats">
                     <div class="threat-card threat1">
                         <div class="threat-header danger">⚠️ IP Leak Alert</div>
@@ -115,28 +113,74 @@
                         <p>“Multiple identical negative comments detected.”</p>
                         <span>— Suspicious Accounts Cluster</span>
                     </div>
+                    <div class="threat-card threat4">
+                        <div class="threat-header danger">📉 Negative Reviews</div>
+                        <p>“Unverified 1-star reviews appearing rapidly.”</p>
+                        <span>— Sentiment Alert · Impact High</span>
+                    </div>
+                    <div class="threat-card threat5">
+                        <div class="threat-header warn">🔥 Social Crisis</div>
+                        <p>“Viral outrage building around out-of-context video.”</p>
+                        <span>— Trending Topic · Immediate Mitigation Required</span>
+                    </div>
+                    <div class="threat-card threat6">
+                        <div class="threat-header danger">⚔️ Online Attack</div>
+                        <p>“Coordinated doxxing attempt and harassment.”</p>
+                        <span>— Severe Threat · Legal Escalation</span>
+                    </div>
 
                 </div>
+            </div>
         </section>
+        <!-- SCENE 2.5 removed to be placed at the footer -->
 
         <!-- SCENE 3: The Solution -->
         <section id="scene-solution" class="scene">
             <div class="solution-grid">
                 <div class="solution-left">
-                    <h2 class="solution-headline">Comprehensive Reputation Protection</h2>
+                    <h2 class="massive-outline" style="font-size: 4.5rem; line-height: 1;">COMPREHENSIVE</h2>
+                    <h2 class="massive-solid" style="font-size: 4.5rem; line-height: 1; margin-bottom: 2rem;">REPUTATION PROTECTION</h2>
                     <p style="color: #aaa; font-size: 1.1rem; line-height: 1.6; max-width: 400px; margin-bottom: 2rem;">Review management, crisis handling, content optimization – tailored for individuals, pros, and organizations.</p>
                 </div>
                 <div class="solution-right">
-                    <h3 class="accent-title">Safeguarding Content, Brand, and Revenue</h3>
-                    <h2>Reputation is Honor</h2>
-                    <ul class="feature-list">
-                        <li><span class="dot"></span> Anti-piracy detection and enforcement at scale.</li>
-                        <li><span class="dot"></span> Real-time monitoring across global platforms.</li>
-                        <li><span class="dot"></span> Reputation intelligence & sentiment risk analysis.</li>
-                        <li><span class="dot"></span> Unauthorized monetization tracking.</li>
-                        <li><span class="dot"></span> Rapid incident response & escalation.</li>
-                        <li><span class="dot"></span> Actionable analytics and performance reporting.</li>
-                    </ul>
+                    <div class="solution-right-header">
+                        <h3 class="accent-title">Safeguarding Content, Brand, and Revenue</h3>
+                        <h2>Reputation is Honor</h2>
+                    </div>
+                    <div class="feature-horizontal-wrapper">
+                        <ul class="feature-list-horizontal">
+                            <li class="feature-box">
+                                <span class="box-number">01</span>
+                                <h4>Anti-Piracy</h4>
+                                <p>Anti-piracy detection and enforcement at scale.</p>
+                            </li>
+                            <li class="feature-box">
+                                <span class="box-number">02</span>
+                                <h4>Monitoring</h4>
+                                <p>Real-time monitoring across global platforms.</p>
+                            </li>
+                            <li class="feature-box">
+                                <span class="box-number">03</span>
+                                <h4>Intelligence</h4>
+                                <p>Reputation intelligence & sentiment risk analysis.</p>
+                            </li>
+                            <li class="feature-box">
+                                <span class="box-number">04</span>
+                                <h4>Tracking</h4>
+                                <p>Unauthorized monetization tracking.</p>
+                            </li>
+                            <li class="feature-box">
+                                <span class="box-number">05</span>
+                                <h4>Response</h4>
+                                <p>Rapid incident response & escalation.</p>
+                            </li>
+                            <li class="feature-box">
+                                <span class="box-number">06</span>
+                                <h4>Analytics</h4>
+                                <p>Actionable analytics and performance reporting.</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
@@ -174,9 +218,9 @@
 
             <!-- Floating icons in background for parallax -->
             <div class="parallax-icons">
-                <img src="threat.png" class="p-icon i1" alt="Threat Intelligence">
-                <img src="approach.jpg" class="p-icon i2" alt="AI Scan">
-                <img src="insights.jpg" class="p-icon i3" alt="Intelligence Insights">
+                <img src="detect.jpg" class="p-icon i1" alt="Detect">
+                <img src="analyze.jpg" class="p-icon i2" alt="Analyze">
+                <img src="protect.jpg" class="p-icon i3" alt="Protect">
             </div>
         </section>
 
@@ -429,47 +473,86 @@
             </div>
         </section>
 
-        <!-- SCENE 6: Get Protected -->
-        <section id="scene-outro" class="scene">
-            <div class="video-overlay"></div>
-            <div class="outro-content">
-                <h2 class="massive-text" style="font-size: 6vw;">Secure Your Reputation Today</h2>
-
-                <a href="#" class="btn-glow mt-2">Talk to an Expert or Get a Trial Audit</a>
+        <!-- SCENE 6: Digital Risk Check (Moved to Outro) -->
+        <section id="scene-risk-check" class="scene parallax-section">
+            <div class="risk-check-container">
+                <h2 class="risk-headline">Know Your Digital Risk</h2>
+                <p class="risk-desc">Our intelligence engine provides executives with a comprehensive scan of immediate online threats and brand vulnerabilities in seconds. <br><a href="#" class="risk-link">Explore the technology</a></p>
+                <div class="risk-action">
+                    <button class="risk-btn text-glow">Run Free Threat Assessment</button>
+                </div>
+                <div class="risk-features">
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" class="icon-check" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline><circle cx="12" cy="12" r="10"></circle></svg>
+                        ZERO COMMITMENT
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" class="icon-check" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline><circle cx="12" cy="12" r="10"></circle></svg>
+                        RAPID DEPLOYMENT
+                    </span>
+                    <span>
+                        <svg viewBox="0 0 24 24" fill="none" class="icon-check" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline><circle cx="12" cy="12" r="10"></circle></svg>
+                        REAL-TIME DATA
+                    </span>
+                </div>
             </div>
         </section>
 
         <!-- FOOTER -->
         <footer id="scene-footer">
-            <div class="container footer-container">
-                <div class="footer-left">
-                    <div class="logo-area">
-                        <img src="logo.png" alt="Company Logo" class="brand-logo flip-logo"
-                            onerror="this.style.display='none'">
-                        <span class="brand-name">RepGuard</span>
-                    </div>
-                    <p class="footer-desc">Advanced cyber intelligence and reputation protection for those who cannot
-                        afford damage.</p>
+    <!-- Dora-Style Footer -->
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo-container" style="flex-direction: row; margin-bottom: 2rem;">
+                    <img src="logo.png" alt="RepGuard Logo" class="nav-logo" style="width: 35px; height: 35px; object-fit: contain;">
+                    <span class="logo-text" style="font-size: 1.5rem; font-weight: 700; margin-left: 10px;">RepGuard</span>
                 </div>
-                <div class="footer-right">
-                    <div class="footer-section">
-                        <h4>Contact Us</h4>
-                        <a href="mailto:info@repscan.ai" class="footer-link">info@repscan.ai</a>
-                    </div>
-                    <div class="footer-section">
-                        <h4>Follow Us</h4>
-                        <div class="social-links">
-                            <a href="#" class="social-icon">LinkedIn</a>
-                            <a href="#" class="social-icon">Instagram</a>
-                            <a href="#" class="social-icon">Facebook</a>
-                        </div>
-                    </div>
+                <p class="footer-tagline"></p>
+            </div>
+            
+            <div class="footer-links-grid">
+                <div class="footer-col">
+                    <h4>SERVICES</h4>
+                    <a href="#">Reputation Protection</a>
+                    <a href="#">Anti-Piracy</a>
+                    <a href="#">Crisis Mitigation</a>
+                    <a href="#">Monitoring</a>
+                </div>
+                <div class="footer-col">
+                    <h4>RESOURCES</h4>
+                    <a href="#">Insights</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Contact Us</a>
+                </div>
+                <div class="footer-col">
+                    <h4>COMPANY</h4>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">About Us</a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                &copy; 2026 RepGuard. All rights reserved.
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                repscan.ai &copy; 2026.<br>
+                All Rights Reserved
             </div>
-        </footer>
+            <div class="footer-socials">
+                <a href="#" class="social-btn" aria-label="LinkedIn" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Instagram" title="Instagram">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="#" class="social-btn" aria-label="Facebook" title="Facebook">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M22.675 0h-21.35C.595 0 0 .595 0 1.325v21.351C0 23.405.595 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.325-.595 1.325-1.324V1.325C24 .595 23.405 0 22.675 0z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
 
     </div>
 

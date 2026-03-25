@@ -14,12 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let lenis;
     if (!isMobile && !prefersReduced) {
         lenis = new Lenis({
-            duration: 1.1,
+            duration: 1.8,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: "vertical",
             smoothWheel: true,
-            wheelMultiplier: 0.9,
-            smoothTouch: false,
+            wheelMultiplier: 0.8,
+            smoothTouch: true,
             infinite: false,
         });
 
@@ -79,99 +79,111 @@ document.addEventListener("DOMContentLoaded", () => {
                 end: "+=1400",
                 pin: true,
                 scrub: 1,
-                anticipatePin: 1,
-            },
+                anticipatePin: 1
+            }
         });
 
-        // Personas float in on page load
-        gsap.utils.toArray(".persona-img").forEach((img, i) => {
-            gsap.fromTo(img,
-                { y: 100, opacity: 0, rotateY: i % 2 === 0 ? 30 : -30 },
-                { y: 0, opacity: 0.88, rotateY: 0, duration: 1.6, ease: "expo.out", delay: 0.5 + i * 0.5 }
-            );
-            // Lazy float after entrance
-            gsap.to(img, {
-                y: "random(-20, 20)", x: "random(-6, 6)", rotationZ: "random(-3, 3)",
-                duration: "random(4, 7)", repeat: -1, yoyo: true, ease: "sine.inOut",
-                delay: 0.5 + i * 0.5 + 1.8,
-            });
-        });
 
-        // Logo floating
-        gsap.to(".massive-logo", {
-            y: "random(-14, 14)", rotationY: "random(-8, 8)",
-            duration: "random(3, 5)", repeat: -1, yoyo: true, ease: "sine.inOut"
-        });
 
         // Scroll-driven: extreme warp backward simulating entering the screen
         introTl
-            .to(".back-layer", { z: -1000, scale: 1.5, x: -100, y: -50, opacity: 0.01, filter: "blur(10px)" }, 0)
-            .to(".marquee-track", { xPercent: -150, z: -500, rotateX: 20, ease: "none" }, 0)
-            .to(".word-reveal", { opacity: 0, scale: 3, z: 1500, stagger: 0.05, y: -200, rotateX: 45 }, 0)
-            .to(".massive-logo", { scale: 5, y: -400, opacity: 0, ease: "expo.in" }, 0.05)
-            .to(".persona-img", { y: -200, opacity: 0, z: 500, stagger: 0.05, ease: "power2.in" }, 0.1)
-            .to(".scroll-down", { opacity: 0, y: -50 }, 0);
+            .fromTo(".back-layer", 
+                { z: 0, scale: 1.15, x: 0, y: 0, opacity: 0.85, filter: "blur(0px) brightness(0.5)" },
+                { z: -600, scale: 1.6, x: -60, y: -30, opacity: 0.05, filter: "blur(6px) brightness(0.3)" }, 0)
+            .fromTo(".marquee-track", 
+                { xPercent: 0, z: 0, rotateX: 0 },
+                { xPercent: -150, z: -500, rotateX: 20, ease: "none" }, 0)
+            .fromTo(".word-reveal", 
+                { opacity: 1, scale: 1, z: 0, y: 0, rotateX: 0 },
+                { opacity: 0, scale: 0.8, z: -300, stagger: 0.08, y: -250, rotateX: -20 }, 0);
 
         // ── Narrative Transition ─────────────────────────────────
-        gsap.fromTo(".scroll-narrative-text",
-            { opacity: 0, y: 80, scale: 0.92 },
-            {
-                opacity: 1, y: 0, scale: 1,
-                scrollTrigger: {
-                    trigger: ".narrative-transition--short",
-                    start: "top 80%", end: "center 35%", scrub: 1.2,
-                }
-            }
-        );
-        gsap.to(".scroll-narrative-text", {
-            opacity: 0, y: -80, scale: 1.08,
+        // Parallax on the narrative background video
+        gsap.to(".narrative-bg-video", {
+            y: -80, scale: 1.1,
             scrollTrigger: {
                 trigger: ".narrative-transition--short",
-                start: "center 40%", end: "bottom top", scrub: 1.2,
+                start: "top bottom", end: "bottom top",
+                scrub: 1.5,
             }
         });
 
-        // ── SCENE 2: Threats ─────────────────────────────────────
+        // Entrance: comes from the left initially and pins
+        const narrativeTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".narrative-transition--short",
+                start: "center center",
+                end: "+=800", // Tighter scroll distance to eliminate "blank" space after
+                pin: true,
+                scrub: 1,
+                anticipatePin: 1
+            }
+        });
+
+        narrativeTl.fromTo(".narrative-accent-line",
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 0.5 }
+        )
+        .fromTo(".scroll-narrative-text",
+            { x: -200, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1 }, 0.2
+        )
+        .fromTo(".narrative-sub",
+            { x: -200, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1 }, 0.4
+        )
+        .to({}, { duration: 1 }) // Short pause to let them read it
+        .to(".narrative-text-block", {
+            x: 200, opacity: 0, scale: 1.05, duration: 1
+        });
+
+        // ── SCENE 2: Threats (Native 3D Parallax Scroll) ──────────
+        gsap.set(".floating-threats", { perspective: 2000, transformStyle: "preserve-3d" });
+
         gsap.fromTo("#scene-threats .headline-large",
-            { y: 100, opacity: 0 },
-            {
-                y: 0, opacity: 1,
+            { y: 150, opacity: 0, rotateX: -20 },
+            { 
+                y: 0, opacity: 1, rotateX: 0, 
                 scrollTrigger: {
                     trigger: "#scene-threats",
-                    start: "top 85%", end: "top 35%", scrub: 1.2,
+                    start: "top bottom", // Start immediately as it enters
+                    end: "top 20%",
+                    scrub: 1
                 }
             }
         );
 
+        // Cards fly in one by one natively as you scroll past them
         gsap.utils.toArray(".threat-card").forEach((card, i) => {
-            // Entrance from deep Z space
+            // Enter animation
             gsap.fromTo(card,
-                { y: 300 + i * 50, z: -800, opacity: 0, rotateX: 45, rotateY: (i % 2 === 0 ? -20 : 20) },
+                { z: -1600, y: 300, opacity: 0, rotateX: (i % 2 === 0) ? -45 : 45, rotateY: (i % 2 === 0) ? -35 : 35 },
                 {
-                    y: 0, z: 0, opacity: 1, rotateX: 0, rotateY: 0,
+                    z: 0, y: 0, opacity: 1, rotateX: 0, rotateY: (i % 2 === 0) ? -2 : 2, 
                     scrollTrigger: {
-                        trigger: "#scene-threats",
-                        start: "top 75%", end: "center 40%",
-                        scrub: 1 + i * 0.2,
+                        trigger: card,
+                        start: "top bottom", // Fire immediately when entering
+                        end: "top 40%",      // Finish earlier for snappier entry
+                        scrub: 1,
                     }
                 }
             );
 
-            // Continuous gentle float
+            // Exit/Parallax fade out
             gsap.to(card, {
-                y: `random(-15, 15)`,
-                x: `random(-10, 10)`,
-                rotateZ: `random(-2, 2)`,
-                duration: `random(3, 5)`,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                delay: i * 0.2
+                y: -150, z: 300, opacity: 0,
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 25%", // Fire when the card natively hits top quarter
+                    end: "bottom top", 
+                    scrub: 1,
+                }
             });
         });
 
+        // Ambient background move
         gsap.to(".threat-bg", {
-            y: -120, x: -60,
+            y: -150, scale: 1.05,
             scrollTrigger: {
                 trigger: "#scene-threats",
                 start: "top bottom", end: "bottom top",
@@ -179,60 +191,117 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // ── SCENE 3: Solution ────────────────────────────────────
-        gsap.fromTo(".solution-left",
-            { x: -100, opacity: 0 },
-            {
-                x: 0, opacity: 1,
+        // ── SCENE 2.5: Digital Risk Check ─────────────────────────
+        const riskContainer = document.querySelector('.risk-check-container');
+        if (riskContainer) {
+            const riskTl = gsap.timeline({
                 scrollTrigger: {
-                    trigger: "#scene-solution",
-                    start: "top 80%", end: "top 30%", scrub: 1,
+                    trigger: "#scene-risk-check",
+                    start: "top bottom", // Start animating immediately
+                    end: "center center", // Finish animation as it centers
+                    scrub: 1          
                 }
-            }
-        );
-        gsap.fromTo(".solution-right",
-            { x: 100, opacity: 0 },
-            {
-                x: 0, opacity: 1,
-                scrollTrigger: {
-                    trigger: "#scene-solution",
-                    start: "top 80%", end: "top 30%", scrub: 1.2,
-                }
-            }
-        );
+            });
 
-        const solutionItems = gsap.utils.toArray(".question-list li, .feature-list li");
-        
-        solutionItems.forEach((li, i) => {
-            gsap.fromTo(li,
-                { y: 30, rotateX: 90, opacity: 0, transformOrigin: "left center" },
-                {
-                    y: 0, rotateX: 0, opacity: 1,
-                    scrollTrigger: {
-                        trigger: li,
-                        start: "top 95%", end: "top 75%", scrub: 0.8,
-                    }
-                }
+            // Container floats up and fades in
+            riskTl.to(riskContainer, {
+                y: 0, 
+                opacity: 1, 
+                duration: 1,
+                ease: "power2.out"
+            });
+
+            // Features stagger in slightly after the container
+            riskTl.fromTo(".risk-features span", 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
+                "-=0.5"
             );
 
-            // Creative 3D Mouse Tracking Aura & Tilt
-            li.addEventListener("mousemove", (e) => {
-                const rect = li.getBoundingClientRect();
-                const x = e.clientX - rect.left; // x position within the element
-                const y = e.clientY - rect.top; // y position within the element
+            // 3D Interactive Mouse Tilt
+            riskContainer.addEventListener("mousemove", (e) => {
+                const rect = riskContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top; 
                 
-                // Update CSS variables for Glow
-                li.style.setProperty('--mouse-x', `${x}px`);
-                li.style.setProperty('--mouse-y', `${y}px`);
-
-                // Calculate tilt based on distance from center
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const tiltX = ((y - centerY) / centerY) * -10; // Max tilt 10deg
+                // Calculate tilt based on mouse position relative to center
+                const tiltX = ((y - centerY) / centerY) * -5; // Subtle 5 deg max tilt
+                const tiltY = ((x - centerX) / centerX) * 5;
+
+                gsap.to(riskContainer, {
+                    rotateX: tiltX,
+                    rotateY: tiltY,
+                    ease: "power2.out",
+                    duration: 0.5,
+                    overwrite: "auto"
+                });
+            });
+
+            // Reset tilt when mouse leaves
+            riskContainer.addEventListener("mouseleave", () => {
+                gsap.to(riskContainer, {
+                    rotateX: 0,
+                    rotateY: 0,
+                    ease: "power2.out",
+                    duration: 0.8,
+                    overwrite: "auto"
+                });
+            });
+        }
+
+        // ── SCENE 3: Solution ────────────────────────────────────
+        gsap.fromTo([".solution-left", ".solution-right-header"],
+            { y: 80, opacity: 0 },
+            {
+                y: 0, opacity: 1, stagger: 0.15,
+                scrollTrigger: {
+                    trigger: "#scene-solution",
+                    start: "top 75%", end: "top 35%", scrub: 1,
+                }
+            }
+        );
+
+        const featureList = document.querySelector(".feature-list-horizontal");
+        if (featureList) {
+            gsap.to(featureList, {
+                x: () => {
+                    return -featureList.scrollWidth;
+                },
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#scene-solution",
+                    start: "top top",
+                    end: () => "+=" + (featureList.scrollWidth - window.innerWidth + 100), // Perfect 1:1 scroll ratio, no blank waiting time
+                    pin: true,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                    anticipatePin: 1
+                }
+            });
+        }
+
+        const solutionBoxes = gsap.utils.toArray(".feature-box, .question-list li");
+        
+        solutionBoxes.forEach((box, i) => {
+            // Creative 3D Mouse Tracking Aura & Tilt
+            box.addEventListener("mousemove", (e) => {
+                const rect = box.getBoundingClientRect();
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top; 
+                
+                box.style.setProperty('--mouse-x', `${x}px`);
+                box.style.setProperty('--mouse-y', `${y}px`);
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const tiltX = ((y - centerY) / centerY) * -10; 
                 const tiltY = ((x - centerX) / centerX) * 10;
 
-                gsap.to(li, {
+                gsap.to(box, {
                     rotateX: tiltX,
                     rotateY: tiltY,
                     translateZ: 30,
@@ -243,8 +312,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             });
 
-            li.addEventListener("mouseleave", () => {
-                gsap.to(li, {
+            box.addEventListener("mouseleave", () => {
+                gsap.to(box, {
                     rotateX: 0,
                     rotateY: 0,
                     translateZ: 0,
@@ -274,8 +343,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     duration: 0.8, ease: "power2.out",
                     scrollTrigger: {
                         trigger: item,
-                        start: "top 72%",
-                        toggleActions: "play none none reverse",
+                        start: "top 85%",
+                        end: "top 45%",
+                        scrub: 1.5,
                     }
                 }
             );
@@ -346,8 +416,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            horizontalTl.to(horizontalSections, {
-                xPercent: -100 * (horizontalSections.length - 1),
+            const scrollTween = horizontalTl.to(".horizontal-content", {
+                x: () => -(horizontalContainer.scrollWidth - document.documentElement.clientWidth),
                 ease: "none",
             });
 
@@ -356,7 +426,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 gsap.to(card, {
                     scrollTrigger: {
                         trigger: card,
-                        containerAnimation: horizontalTl,
+                        containerAnimation: scrollTween, // using the specific tween
                         start: "left center+=20%",
                         end: "right center-=20%",
                         scrub: true,
@@ -380,29 +450,48 @@ document.addEventListener("DOMContentLoaded", () => {
             const text = card.querySelector(".a-card-text");
             const fromX = i % 2 === 0 ? -90 : 90;
 
-            gsap.set(card, { opacity: 0, x: fromX });
-            if (visual) gsap.set(visual, { rotateY: i % 2 === 0 ? 65 : -65, scale: 0.85 });
-
-            ScrollTrigger.create({
-                trigger: card,
-                start: "top 80%",
-                once: true,
-                onEnter() {
-                    const tl = gsap.timeline();
-                    tl.to(card, { opacity: 1, x: 0, duration: 0.9, ease: "expo.out" })
-                        .to(visual, { rotateY: 0, scale: 1, duration: 1.1, ease: "expo.out" }, "-=0.7");
-                    if (text) tl.fromTo(text, { opacity: 0, x: i % 2 === 0 ? 30 : -30 }, { opacity: 1, x: 0, duration: 0.7, ease: "power2.out" }, "-=0.5");
-
-                    // Gentle perpetual float on image
-                    if (visual) {
-                        tl.to(visual, {
-                            y: "random(-8, 8)",
-                            duration: "random(3, 5)",
-                            repeat: -1, yoyo: true, ease: "sine.inOut",
-                        }, "+=0.3");
+            gsap.fromTo(card,
+                { opacity: 0, x: fromX },
+                {
+                    opacity: 1, x: 0,
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%",
+                        end: "top 50%",
+                        scrub: 1.5
                     }
                 }
-            });
+            );
+
+            if (visual) {
+                gsap.fromTo(visual,
+                    { rotateY: i % 2 === 0 ? 65 : -65, scale: 0.85 },
+                    {
+                        rotateY: 0, scale: 1,
+                        scrollTrigger: {
+                            trigger: card,
+                            start: "top 90%",
+                            end: "top 50%",
+                            scrub: 1.5
+                        }
+                    }
+                );
+            }
+
+            if (text) {
+                gsap.fromTo(text,
+                    { opacity: 0, x: i % 2 === 0 ? 30 : -30 },
+                    {
+                        opacity: 1, x: 0,
+                        scrollTrigger: {
+                            trigger: card,
+                            start: "top 85%",
+                            end: "top 45%",
+                            scrub: 2
+                        }
+                    }
+                );
+            }
         });
 
         // Legacy Ring & Matrix removed
@@ -411,37 +500,39 @@ document.addEventListener("DOMContentLoaded", () => {
         gsap.set(".massive-text", { transformPerspective: 1000, transformStyle: "preserve-3d" });
         
         gsap.fromTo(".massive-text",
-            { y: 150, z: -400, rotateX: -60, opacity: 0, scale: 0.8 },
+            { y: 100, opacity: 0 },
             {
-                y: 0, z: 0, rotateX: 0, opacity: 1, scale: 1,
-                stagger: 0.2, // Slightly faster stagger for impact
-                ease: "back.out(1.2)", // Add a slight overshoot for a slamming effect
+                y: 0, opacity: 1,
+                stagger: 0.15,
+                ease: "power2.out",
                 scrollTrigger: {
                     trigger: "#scene-outro",
-                    start: "top 70%", end: "top 20%", scrub: 1,
+                    start: "top 80%", end: "top 30%", scrub: 1,
                 }
             }
         );
         
         gsap.fromTo(".btn-glow",
-            { opacity: 0, scale: 0.5, y: 50 },
+            { opacity: 0, y: 50 },
             {
-                opacity: 1, scale: 1, y: 0,
-                ease: "back.out(2)", // Bouncier button entrance
+                opacity: 1, y: 0,
+                ease: "power2.out",
                 scrollTrigger: {
                     trigger: "#scene-outro",
-                    start: "top 40%", end: "top 20%", scrub: 1,
+                    start: "top 60%", end: "top 40%", scrub: 1,
                 }
             }
         );
 
         // ── Client logos stagger ─────────────────────────────────
         gsap.from(".client-logo", {
-            y: 40, opacity: 0, stagger: 0.07, duration: 0.6, ease: "power2.out",
+            y: 80, opacity: 0, stagger: 0.1, 
+            scale: 0.8, rotateX: 20,
             scrollTrigger: {
                 trigger: "#scene-clients",
-                start: "top 85%",
-                toggleActions: "play none none none",
+                start: "top 95%",
+                end: "top 50%",
+                scrub: 1.5,
             }
         });
 
@@ -482,11 +573,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 gsap.fromTo(el,
                     { y: 40, opacity: 0 },
                     {
-                        y: 0, opacity: 1, duration: 0.7, ease: "power2.out",
+                        y: 0, opacity: 1,
                         scrollTrigger: {
                             trigger: el,
-                            start: "top 88%",
-                            toggleActions: "play none none none",
+                            start: "top 95%",
+                            end: "top 60%",
+                            scrub: 1.5,
                         }
                     }
                 );
@@ -560,9 +652,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             gsap.to(".back-layer", {
-                x: xPct * 40,
-                y: yPct * 40,
-                duration: 1.5,
+                x: xPct * 55,
+                y: yPct * 55,
+                rotateY: xPct * 2,
+                rotateX: yPct * -2,
+                duration: 1.8,
                 ease: "power2.out"
             });
 
